@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BancaMovil - Dashboard</title>
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="2" y="5" width="20" height="14" rx="2" stroke="currentColor" stroke-width="2"/>
+                        <path d="M2 10h20" stroke="currentColor" stroke-width="2"/>
+                        <circle cx="7" cy="15" r="1" fill="currentColor"/>
+                    </svg>
+                </div>
+                <h2>BancaMovil</h2>
+            </div>
+
+            <nav class="sidebar-nav">
+                <button class="nav-item active" data-view="resumen">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                        <rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                        <rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                        <rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    <span>Resumen</span>
+                </button>
+
+                <button class="nav-item" data-view="transferir">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Transferir</span>
+                </button>
+
+                <button class="nav-item" data-view="recargar">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M12 2V6M12 18V22M6 12H2M22 12H18M19.07 4.93L16.24 7.76M7.76 16.24L4.93 19.07M4.93 4.93L7.76 7.76M16.24 16.24L19.07 19.07" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Recargar</span>
+                </button>
+
+                <button class="nav-item" data-view="asistente">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M9.09 9C9.3251 8.33167 9.78915 7.76811 10.4 7.40913C11.0108 7.05016 11.7289 6.91894 12.4272 7.03871C13.1255 7.15849 13.7588 7.52152 14.2151 8.06353C14.6713 8.60553 14.9211 9.29152 14.92 10C14.92 12 11.92 13 11.92 13M12 17H12.01M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Asistente IA</span>
+                </button>
+
+                <button class="nav-item" data-view="perfil">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
+                        <path d="M12 1V3M12 21V23M4.22 4.22L5.64 5.64M18.36 18.36L19.78 19.78M1 12H3M21 12H23M4.22 19.78L5.64 18.36M18.36 5.64L19.78 4.22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Mi Perfil</span>
+                </button>
+
+                <button class="nav-item" data-view="tarjetas">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <rect x="1" y="4" width="22" height="16" rx="2" stroke="currentColor" stroke-width="2"/>
+                        <path d="M1 10H23" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    <span>Mis Tarjetas</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="btn-logout" id="btnLogout">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M9 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M16 17L21 12L16 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M21 12H9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Cerrar Sesión</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="welcome">
+                    <h1>Hola, <span id="userName">Usuario</span></h1>
+                    <p id="currentDate"></p>
+                </div>
+                <div class="user-menu">
+                    <span id="userEmail"></span>
+                </div>
+            </header>
+
+            <!-- Vista: Resumen -->
+            <section id="view-resumen" class="view active">
+                <div class="balance-card">
+                    <div class="balance-header">
+                        <h2>Saldo Disponible</h2>
+                        <button class="btn-refresh" id="btnRefreshBalance">
+                            <svg viewBox="0 0 24 24" fill="none">
+                                <path d="M21 2V8M21 8H15M21 8L18.5 5.5C17.0871 4.08714 15.1631 3.23285 13.1158 3.09199C11.0685 2.95113 9.04408 3.5334 7.39959 4.73903C5.75511 5.94467 4.59944 7.69141 4.14077 9.6656C3.68209 11.6398 3.95256 13.7114 4.90798 15.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M3 22V16M3 16H9M3 16L5.5 18.5C6.91286 19.9129 8.83694 20.7671 10.8842 20.908C12.9315 21.0489 14.9559 20.4666 16.6004 19.261C18.2449 18.0553 19.4006 16.3086 19.8592 14.3344C20.3179 12.3602 20.0474 10.2886 19.092 8.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="balance-amount">
+                        <span class="currency">$</span>
+                        <span id="saldoTotal">0.00</span>
+                    </div>
+                    <div class="balance-footer">
+                        <span>CI: <strong id="userCI">-</strong></span>
+                    </div>
+                </div>
+
+                <div class="quick-actions">
+                    <button class="quick-btn" data-action="transferir">
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>Transferir</span>
+                    </button>
+                    <button class="quick-btn" data-action="recargar">
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                            <path d="M12 8V16M8 12H16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        <span>Recargar</span>
+                    </button>
+                    <button class="quick-btn" data-action="asistente">
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M9.09 9C9.3251 8.33167 9.78915 7.76811 10.4 7.40913C11.0108 7.05016 11.7289 6.91894 12.4272 7.03871C13.1255 7.15849 13.7588 7.52152 14.2151 8.06353C14.6713 8.60553 14.9211 9.29152 14.92 10C14.92 12 11.92 13 11.92 13M12 17H12.01M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span>Asistente IA</span>
+                    </button>
+                </div>
+
+                <div class="recent-transactions">
+                    <h3>Transacciones Recientes</h3>
+                    <div id="recentTransactionsList" class="transactions-list">
+                        <p class="loading">Cargando...</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Vista: Transferir -->
+            <section id="view-transferir" class="view">
+                <div class="form-card">
+                    <h2>Transferir Dinero</h2>
+                    <form id="formTransferir">
+                        <div class="form-group">
+                            <label>CI del Destinatario</label>
+                            <input type="text" id="ciDestino" placeholder="Ingrese el CI" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Monto</label>
+                            <div class="input-amount">
+                                <span class="currency-symbol">$</span>
+                                <input type="number" id="montoTransferir" step="0.01" placeholder="0.00" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Descripción (opcional)</label>
+                            <textarea id="descripcionTransferir" rows="3" placeholder="Motivo de la transferencia"></textarea>
+                        </div>
+                        <div class="alert" id="alertTransferir" style="display: none;"></div>
+                        <button type="submit" class="btn-primary">Transferir</button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Vista: Recargar -->
+            <section id="view-recargar" class="view">
+                <div class="form-card">
+                    <h2>Recargar Saldo con Tarjetas</h2>
+                    
+                    <!-- Canjear Tarjeta -->
+                    <div class="tab-content active" id="tab-canjear-tarjeta">
+                        <div class="tarjetas-info">
+                            <h3>Tarjetas de Recarga Disponibles</h3>
+                            <div id="tarjetasDisponibles" class="tarjetas-grid">
+                                <div class="loading">Cargando...</div>
+                            </div>
+                        </div>
+                        
+                        <form id="formCanjearTarjeta">
+                            <div class="form-group">
+                                <label>Código de Tarjeta</label>
+                                <input type="text" id="codigoTarjeta" placeholder="Ejemplo: REC10-A1B2C3" required style="text-transform: uppercase;">
+                                <small>Ingresa el código impreso en tu tarjeta de recarga</small>
+                            </div>
+                            <div class="alert" id="alertCanjear" style="display: none;"></div>
+                            <button type="submit" class="btn-primary">Canjear Tarjeta</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Vista: Asistente IA -->
+            <section id="view-asistente" class="view">
+                <div class="ai-card">
+                    <div class="card-header">
+                        <h2>Asistente Financiero IA</h2>
+                        <div class="header-actions">
+                            <span class="ai-status" id="aiStatus">
+                                <span class="status-dot"></span>
+                                En línea
+                            </span>
+                            <button class="btn-clear" id="btnClearChat" title="Limpiar conversación">
+                                <svg viewBox="0 0 24 24" fill="none">
+                                    <path d="M3 6H21M19 6V20C19 21 18 22 17 22H7C6 22 5 21 5 20V6M8 6V4C8 3 9 2 10 2H14C15 2 16 3 16 4V6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="ai-suggestions">
+                        <span class="suggestions-label">Preguntas sugeridas:</span>
+                        <button class="suggestion-btn" data-question="Analiza mis transacciones recientes y dame recomendaciones">Analizar mis gastos</button>
+                        <button class="suggestion-btn" data-question="¿Cómo puedo optimizar mis gastos mensuales?">Optimizar gastos</button>
+                        <button class="suggestion-btn" data-question="Dame consejos para crear un plan de ahorro efectivo">Plan de ahorro</button>
+                        <button class="suggestion-btn" data-question="¿Cuáles son mis patrones de gasto y cómo mejorarlos?">Patrones de gasto</button>
+                    </div>
+                    <div id="chatMessages" class="chat-messages">
+                        <div class="ai-message">
+                            <div class="message-avatar ai">
+                                <svg viewBox="0 0 24 24" fill="none">
+                                    <path d="M9.09 9C9.3251 8.33167 9.78915 7.76811 10.4 7.40913C11.0108 7.05016 11.7289 6.91894 12.4272 7.03871C13.1255 7.15849 13.7588 7.52152 14.2151 8.06353C14.6713 8.60553 14.9211 9.29152 14.92 10C14.92 12 11.92 13 11.92 13M12 17H12.01M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div class="message-content">
+                                <div class="message-header">
+                                    <span class="message-author">Asistente IA</span>
+                                    <span class="message-time">Ahora</span>
+                                </div>
+                                <p>Bienvenido. Soy tu asistente financiero profesional con acceso a tus datos de transacciones. Puedo analizar tus patrones de gasto, identificar oportunidades de ahorro y proporcionarte recomendaciones personalizadas basadas en tu historial financiero real.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat-input-container">
+                        <form id="formAIChat">
+                            <textarea 
+                                id="inputAIQuestion" 
+                                placeholder="Escribe tu consulta financiera..."
+                                rows="2"
+                                required
+                            ></textarea>
+                            <button type="submit" id="btnSendQuestion" class="btn-send">
+                                <svg viewBox="0 0 24 24" fill="none">
+                                    <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Vista: Perfil -->
+            <section id="view-perfil" class="view">
+                <div class="profile-card">
+                    <h2>Mi Perfil</h2>
+                    <div class="profile-info">
+                        <div class="info-row">
+                            <label>Nombre:</label>
+                            <span id="perfilNombre">-</span>
+                        </div>
+                        <div class="info-row">
+                            <label>CI:</label>
+                            <span id="perfilCI">-</span>
+                        </div>
+                        <div class="info-row">
+                            <label>Email:</label>
+                            <span id="perfilEmail">-</span>
+                        </div>
+                        <div class="info-row">
+                            <label>Teléfono:</label>
+                            <span id="perfilTelefono">-</span>
+                        </div>
+                        <div class="info-row">
+                            <label>Fecha de Registro:</label>
+                            <span id="perfilFechaRegistro">-</span>
+                        </div>
+                    </div>
+
+                    <div class="profile-actions">
+                        <button class="btn-secondary" id="btnCambiarPassword">Cambiar Contraseña</button>
+                    </div>
+                </div>
+
+                <!-- Modal Cambiar Contraseña -->
+                <div id="modalPassword" class="modal" style="display: none;">
+                    <div class="modal-content">
+                        <h3>Cambiar Contraseña</h3>
+                        <form id="formCambiarPassword">
+                            <div class="form-group">
+                                <label>Contraseña Actual</label>
+                                <input type="password" id="passwordActual" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Nueva Contraseña</label>
+                                <input type="password" id="passwordNueva" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Confirmar Nueva Contraseña</label>
+                                <input type="password" id="passwordConfirmar" required>
+                            </div>
+                            <div class="alert" id="alertPassword" style="display: none;"></div>
+                            <div class="modal-actions">
+                                <button type="button" class="btn-secondary" id="btnCancelarPassword">Cancelar</button>
+                                <button type="submit" class="btn-primary">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Vista: Tarjetas -->
+            <section id="view-tarjetas" class="view">
+                <div class="cards-container">
+                    <h2>Mis Tarjetas RFID</h2>
+                    <div id="tarjetasList" class="tarjetas-grid">
+                        <p class="loading">Cargando tarjetas...</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="/static/js/dashboard.js"></script>
+</body>
+</html>

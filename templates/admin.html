@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BancaMovil - Panel Admin</title>
+    <link rel="stylesheet" href="/static/css/admin.css">
+</head>
+<body>
+    <div class="admin-container">
+        <header class="admin-header">
+            <div class="header-left">
+                <h1>Panel de Administración</h1>
+            </div>
+            <div class="header-right">
+                <a href="/dashboard" class="btn-back">Volver al Dashboard</a>
+                <button id="btnLogout" class="btn-logout">Cerrar Sesión</button>
+            </div>
+        </header>
+
+        <nav class="admin-nav">
+            <button class="nav-tab active" data-tab="usuarios">Usuarios</button>
+            <button class="nav-tab" data-tab="transacciones">Transacciones</button>
+            <button class="nav-tab" data-tab="tarjetas">Tarjetas</button>
+            <button class="nav-tab" data-tab="tarjeteros">Tarjeteros</button>
+            <button class="nav-tab" data-tab="estadisticas">Estadísticas</button>
+        </nav>
+
+        <main class="admin-content">
+            <!-- Tab: Usuarios -->
+            <section id="tab-usuarios" class="tab-content active">
+                <div class="tab-header">
+                    <h2>Gestión de Usuarios</h2>
+                    <button class="btn-primary" id="btnNuevoUsuario">
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        Nuevo Usuario
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table id="tablaUsuarios">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>CI</th>
+                                <th>Nombre</th>
+                                <th>Email</th>
+                                <th>Teléfono</th>
+                                <th>Saldo</th>
+                                <th>Estado</th>
+                                <th>Fecha Registro</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="9" class="loading">Cargando usuarios...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Tab: Transacciones -->
+            <section id="tab-transacciones" class="tab-content">
+                <div class="tab-header">
+                    <h2>Todas las Transacciones</h2>
+                    <button class="btn-secondary" id="btnRefreshTransacciones">
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M21 2V8M21 8H15M21 8L18 5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        Actualizar
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table id="tablaTransacciones">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Usuario</th>
+                                <th>Tarjetero</th>
+                                <th>Monto</th>
+                                <th>Tipo</th>
+                                <th>Estado</th>
+                                <th>Fecha</th>
+                                <th>Descripción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="8" class="loading">Cargando transacciones...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Tab: Tarjetas -->
+            <section id="tab-tarjetas" class="tab-content">
+                <div class="tab-header">
+                    <h2>Tarjetas Registradas</h2>
+                </div>
+                <div class="table-container">
+                    <table id="tablaTarjetas">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>UID</th>
+                                <th>Usuario</th>
+                                <th>CI Usuario</th>
+                                <th>Estado</th>
+                                <th>Fecha Registro</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="7" class="loading">Cargando tarjetas...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Tab: Tarjeteros -->
+            <section id="tab-tarjeteros" class="tab-content">
+                <div class="tab-header">
+                    <h2>Tarjeteros (Puntos de Venta)</h2>
+                    <button class="btn-primary" id="btnNuevoTarjetero">
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        Nuevo Tarjetero
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table id="tablaTarjeteros">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Ubicación</th>
+                                <th>Saldo</th>
+                                <th>Estado</th>
+                                <th>Fecha Creación</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="7" class="loading">Cargando tarjeteros...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Tab: Estadísticas -->
+            <section id="tab-estadisticas" class="tab-content">
+                <h2>Estadísticas del Sistema</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon blue">
+                            <svg viewBox="0 0 24 24" fill="none">
+                                <path d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21" stroke="currentColor" stroke-width="2"/>
+                                <circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="statUsuarios">0</h3>
+                            <p>Usuarios Activos</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon green">
+                            <svg viewBox="0 0 24 24" fill="none">
+                                <rect x="1" y="4" width="22" height="16" rx="2" stroke="currentColor" stroke-width="2"/>
+                                <path d="M1 10H23" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="statTarjetas">0</h3>
+                            <p>Tarjetas Registradas</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon orange">
+                            <svg viewBox="0 0 24 24" fill="none">
+                                <path d="M12 2V22M17 5H9.5C8.57174 5 7.6815 5.36875 7.02513 6.02513C6.36875 6.6815 6 7.57174 6 8.5C6 9.42826 6.36875 10.3185 7.02513 10.9749C7.6815 11.6313 8.57174 12 9.5 12H14.5C15.4283 12 16.3185 12.3687 16.9749 13.0251C17.6313 13.6815 18 14.5717 18 15.5C18 16.4283 17.6313 17.3185 16.9749 17.9749C16.3185 18.6313 15.4283 19 14.5 19H6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="statTransacciones">0</h3>
+                            <p>Transacciones Hoy</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon purple">
+                            <svg viewBox="0 0 24 24" fill="none">
+                                <path d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2"/>
+                                <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="statMontoTotal">$0.00</h3>
+                            <p>Monto Total Procesado</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Modal: Nuevo Usuario -->
+        <div id="modalNuevoUsuario" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Crear Nuevo Usuario</h3>
+                    <button class="modal-close" data-modal="modalNuevoUsuario">&times;</button>
+                </div>
+                <form id="formNuevoUsuario">
+                    <div class="form-group">
+                        <label>CI (Carnet de Identidad)</label>
+                        <input type="text" id="nuevoCI" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Nombre Completo</label>
+                        <input type="text" id="nuevoNombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="nuevoEmail">
+                    </div>
+                    <div class="form-group">
+                        <label>Teléfono</label>
+                        <input type="tel" id="nuevoTelefono">
+                    </div>
+                    <div class="form-group">
+                        <label>Saldo Inicial</label>
+                        <input type="number" id="nuevoSaldo" step="0.01" value="0.00">
+                    </div>
+                    <div class="form-group">
+                        <label>Contraseña</label>
+                        <input type="password" id="nuevoPassword" value="1234">
+                    </div>
+                    <div class="alert" id="alertNuevoUsuario" style="display: none;"></div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn-secondary" data-modal="modalNuevoUsuario">Cancelar</button>
+                        <button type="submit" class="btn-primary">Crear Usuario</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal: Nuevo Tarjetero -->
+        <div id="modalNuevoTarjetero" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Crear Nuevo Tarjetero</h3>
+                    <button class="modal-close" data-modal="modalNuevoTarjetero">&times;</button>
+                </div>
+                <form id="formNuevoTarjetero">
+                    <div class="form-group">
+                        <label>Nombre del Tarjetero</label>
+                        <input type="text" id="tarjeteroNombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Ubicación</label>
+                        <input type="text" id="tarjeteroUbicacion">
+                    </div>
+                    <div class="alert" id="alertNuevoTarjetero" style="display: none;"></div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn-secondary" data-modal="modalNuevoTarjetero">Cancelar</button>
+                        <button type="submit" class="btn-primary">Crear Tarjetero</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/admin.js"></script>
+</body>
+</html>
