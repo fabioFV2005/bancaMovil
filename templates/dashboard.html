@@ -2,14 +2,24 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>BancaMovil - Dashboard</title>
     <link rel="stylesheet" href="/static/css/dashboard.css">
 </head>
 <body>
     <div class="dashboard-container">
+        <!-- Menu Toggle Button -->
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+            <svg viewBox="0 0 24 24" fill="none">
+                <path d="M3 12H21M3 6H21M3 18H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </button>
+        
+        <!-- Overlay para cerrar sidebar en móvil -->
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+        
         <!-- Sidebar -->
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="logo">
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
